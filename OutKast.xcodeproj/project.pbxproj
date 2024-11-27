@@ -256,7 +256,6 @@
 				DEVELOPMENT_TEAM = G7VQ69B3X8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "OutKast requires your location to show the weather.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "OutKast requires your location to show the weather.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -292,7 +291,6 @@
 				DEVELOPMENT_TEAM = G7VQ69B3X8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "OutKast requires your location to show the weather.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "OutKast requires your location to show the weather.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

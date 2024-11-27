@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct OutKastApp: App {
+    @State private var locationManager = LocationManager()
+    
     var body: some Scene {
         WindowGroup {
-            ForecastView()
+            if locationManager.isAuthorized {
+                ForecastView()
+            } else {
+                LocationDeniedView()
+            }
         }
+        .environment(locationManager)
     }
 }

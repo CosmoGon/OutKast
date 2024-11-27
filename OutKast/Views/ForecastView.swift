@@ -10,52 +10,73 @@ import WeatherKit
 import CoreLocation
 
 struct ForecastView: View {
+    @Environment(LocationManager.self) var locationManager
+    
     let weatherManager = WeatherManager.shared
+    
+    @State private var selectedCity: City?
     @State private var currentWeather: CurrentWeather?
     @State private var isLoading = false
     
     var body: some View {
         VStack {
-            if isLoading {
-                ProgressView()
-                Text("Fetching Weather...")
-            } else {
-                if let currentWeather {
-                    Text(Date.now.formatted(date: .abbreviated, time: .omitted))
-                    Text(Date.now.formatted(date: .omitted, time: .shortened))
-                    Image(systemName: currentWeather.symbolName)
-                        .renderingMode(.original)
-                        .symbolVariant(.fill)
-                        .font(.system(size: 60.0, weight: .bold))
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 20.0)
-                                .fill(.secondary.opacity(0.2))
-                        )
+            if let selectedCity {
+                if isLoading {
+                    ProgressView()
+                    Text("Fetching Weather...")
+                } else {
+                    Text(selectedCity.name)
+                        .font(.title)
                     
-                    let temp = weatherManager.temperatureFormatter.string(from: currentWeather.temperature)
-                    
-                    Text(temp)
-                        .font(.title2)
-                    
-                    Text(currentWeather.condition.description)
-                        .font(.title3)
-                    
-                    AttributionView()
+                    if let currentWeather {
+                        Text(Date.now.formatted(date: .abbreviated, time: .omitted))
+                        Text(Date.now.formatted(date: .omitted, time: .shortened))
+                        Image(systemName: currentWeather.symbolName)
+                            .renderingMode(.original)
+                            .symbolVariant(.fill)
+                            .font(.system(size: 60.0, weight: .bold))
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 20.0)
+                                    .fill(.secondary.opacity(0.2))
+                            )
+                        
+                        let temp = weatherManager.temperatureFormatter.string(from: currentWeather.temperature)
+                        
+                        Text(temp)
+                            .font(.title2)
+                        
+                        Text(currentWeather.condition.description)
+                            .font(.title3)
+                        
+                        AttributionView()
+                    }
                 }
             }
         }
         .padding()
-        .task {
-            isLoading = true
-            Task.detached { @MainActor in
-                currentWeather = await weatherManager.currentWeather(for: CLLocation(latitude: 46.088036, longitude: 27.438486))
+        .task(id: locationManager.currentLocation) {
+            if let currentLocaion = locationManager.currentLocation, selectedCity == nil {
+                selectedCity = currentLocaion
             }
-            isLoading = false
         }
+        .task(id: selectedCity) {
+            if let selectedCity {
+                await fetchWeather(for: selectedCity)
+            }
+        }
+    }
+    
+    func fetchWeather(for city: City) async {
+        isLoading = true
+        Task.detached { @MainActor in
+            currentWeather = await weatherManager.currentWeather(for: city.clLocation)
+        }
+        isLoading = false
     }
 }
 
 #Preview {
     ForecastView()
+        .environment(LocationManager())
 }
