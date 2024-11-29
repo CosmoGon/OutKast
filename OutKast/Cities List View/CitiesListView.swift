@@ -15,21 +15,25 @@ struct CitiesListView: View {
     var body: some View {
         NavigationStack {
             List {
-                if let currentLocation {
-                    Text(currentLocation.name)
-                        .onTapGesture {
-                            selectedCity = currentLocation
-                            dismiss()
-                        }
+                Group {
+                    if let currentLocation {
+                        CityRowView(city: currentLocation)
+                            .onTapGesture {
+                                selectedCity = currentLocation
+                                dismiss()
+                            }
+                    }
+                    
+                    ForEach(City.cities) { city in
+                        CityRowView(city: city)
+                            .onTapGesture {
+                                selectedCity = city
+                                dismiss()
+                            }
+                    }
                 }
-                
-                ForEach(City.cities) { city in
-                    Text(city.name)
-                        .onTapGesture {
-                            selectedCity = city
-                            dismiss()
-                        }
-                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .listRowInsets(.init(top: 0, leading: 20, bottom: 10, trailing: 20))
             }
             .listStyle(.plain)
             .navigationTitle("My Cities")
@@ -41,4 +45,5 @@ struct CitiesListView: View {
 
 #Preview {
     CitiesListView(currentLocation: City.mockCurrent, selectedCity: .constant(nil))
+        .environment(LocationManager())
 }

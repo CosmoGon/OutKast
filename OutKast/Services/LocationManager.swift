@@ -46,7 +46,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         return name ?? ""
     }
     
-    func getTimeZone(for location: CLLocation) async -> TimeZone {
+    func getTimezone(for location: CLLocation) async -> TimeZone {
         let timeZone = try? await CLGeocoder().reverseGeocodeLocation(location).first?.timeZone
         return timeZone ?? .current
     }
