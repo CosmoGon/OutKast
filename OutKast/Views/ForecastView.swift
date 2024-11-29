@@ -12,10 +12,14 @@ import CoreLocation
 struct ForecastView: View {
     @Environment(LocationManager.self) var locationManager
     @Environment(\.scenePhase) private var scenePhase
+    
     @State private var selectedCity: City?
+    
     let weatherManager = WeatherManager.shared
+    
     @State private var currentWeather: CurrentWeather?
     @State private var hourlyForecast: Forecast<HourWeather>?
+    @State private var dailyForecast: Forecast<DayWeather>?
     @State private var isLoading = false
     @State private var showCityList = false
     @State private var timezone: TimeZone = .current
@@ -37,36 +41,42 @@ struct ForecastView: View {
     }
     
     var body: some View {
-        VStack {
-            if let selectedCity {
-                if isLoading {
-                    ProgressView()
-                    Text("Fetching Weather...")
-                } else {
-                    Text(selectedCity.name)
-                        .font(.title)
-                    if let currentWeather {
-                        CurrentWeatherView(
-                            currentWeather: currentWeather,
-                            highTemperature: highTemperature,
-                            lowTemperature: lowTemperature,
-                            timezone: timezone
-                        )
+        ScrollView {
+            VStack {
+                if let selectedCity {
+                    if isLoading {
+                        ProgressView()
+                        Text("Fetching Weather...")
+                    } else {
+                        Text(selectedCity.name)
+                            .font(.title)
+                        if let currentWeather {
+                            CurrentWeatherView(
+                                currentWeather: currentWeather,
+                                highTemperature: highTemperature,
+                                lowTemperature: lowTemperature,
+                                timezone: timezone
+                            )
+                        }
+                        
+                        if let hourlyForecast {
+                            HourlyForecastView(
+                                hourlyForecast: hourlyForecast,
+                                timezone: timezone
+                            )
+                        }
+                        
+                        if let dailyForecast {
+                            DailyForecastView(dailyForecast: dailyForecast, timezone: timezone)
+                        }
+                        
+                        AttributionView()
+                            .tint(.white)
                     }
-                    
-                    if let hourlyForecast {
-                        HourlyForecastView(
-                            hourlyForecast: hourlyForecast,
-                            timezone: timezone
-                        )
-                    }
-                    Spacer()
-                    AttributionView()
-                        .tint(.white)
                 }
             }
         }
-        .padding()
+        .contentMargins(.all, 15, for: .scrollContent)
         .background {
             if selectedCity != nil,
                let condition = currentWeather?.condition {
@@ -119,6 +129,7 @@ struct ForecastView: View {
             currentWeather = await weatherManager.currentWeather(for: city.clLocation)
             timezone = await locationManager.getTimezone(for: city.clLocation)
             hourlyForecast = await weatherManager.hourlyForecast(for: city.clLocation)
+            dailyForecast = await weatherManager.dailyForecast(for: city.clLocation)
         }
         isLoading = false
     }

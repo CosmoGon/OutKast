@@ -26,6 +26,7 @@ struct HourlyForecastView: View {
                             .symbolVariant(.fill)
                             .font(.system(size: 22))
                             .padding(.bottom,3)
+                        
                         if hour.precipitationChance > 0 {
                             Text("\((hour.precipitationChance * 100).formatted(.number.precision(.fractionLength(0))))%")
                                 .foregroundStyle(.cyan)
