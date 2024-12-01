@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct OutKastApp: App {
     @State private var locationManager = LocationManager()
+    @State private var store = DataStore()
     
     var body: some Scene {
         WindowGroup {
@@ -20,5 +21,6 @@ struct OutKastApp: App {
             }
         }
         .environment(locationManager)
+        .environment(store)
     }
 }
