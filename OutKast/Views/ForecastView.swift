@@ -50,6 +50,8 @@ struct ForecastView: View {
                     } else {
                         Text(selectedCity.name)
                             .font(.title)
+                            .padding(.top, 30)
+                        
                         if let currentWeather {
                             CurrentWeatherView(
                                 currentWeather: currentWeather,
@@ -57,6 +59,7 @@ struct ForecastView: View {
                                 lowTemperature: lowTemperature,
                                 timezone: timezone
                             )
+                            .padding(.bottom, 70)
                         }
                         
                         if let hourlyForecast {
@@ -68,6 +71,54 @@ struct ForecastView: View {
                         
                         if let dailyForecast {
                             DailyForecastView(dailyForecast: dailyForecast, timezone: timezone)
+                        }
+                        
+                        AirQualityView()
+                        
+                        HStack {
+                            if let currentWeather {
+                                FeelsLikeView(currentWeather: currentWeather)
+                                    .aspectRatio(1.0, contentMode: .fill)
+                            }
+                            
+                            if let currentWeather {
+                                UVIndexView(currentWeather: currentWeather)
+                                    .aspectRatio(1.0, contentMode: .fill)
+                            }
+                        }
+                        
+                        if let currentWeather {
+                            WindView(currentWeather: currentWeather)
+                        }
+                        
+                        HStack {
+                            SunTrackerView()
+                                .aspectRatio(1.0, contentMode: .fill)
+                            
+                            PrecipitationView()
+                                .aspectRatio(1.0, contentMode: .fill)
+                        }
+                        
+                        HStack {
+                            if let currentWeather {
+                                VisibilityView(currentWeather: currentWeather)
+                                    .aspectRatio(1.0, contentMode: .fill)
+                            }
+                            
+                            if let currentWeather {
+                                HumidityView(currentWeather: currentWeather)
+                                    .aspectRatio(1.0, contentMode: .fill)
+                            }
+                        }
+                        
+                        HStack {
+                            AveragesView()
+                                .aspectRatio(1.0, contentMode: .fill)
+                            
+                            if let currentWeather {
+                                PressureView(currentWeather: currentWeather)
+                                    .aspectRatio(1.0, contentMode: .fill)
+                            }
                         }
                         
                         AttributionView()

@@ -17,29 +17,20 @@ struct CurrentWeatherView: View {
     
     
     var body: some View {
-        Text(currentWeather.date.localDate(for: timezone))
-        Text(currentWeather.date.localTime(for: timezone))
-        Image(systemName: currentWeather.symbolName)
-            .renderingMode(.original)
-            .symbolVariant(.fill)
-            .font(.system(size: 60.0, weight: .bold))
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 20.0)
-                    .fill(.secondary.opacity(0.2))
-            )
-        
         let temp = weatherManager.temperatureFormatter.string(from: currentWeather.temperature)
         
-        Text(temp)
-            .font(.title2)
-        
-        Text(currentWeather.condition.description)
-            .font(.title3)
-        
-        if let highTemperature, let lowTemperature {
-            Text("H: \(highTemperature) | L: \(lowTemperature)")
-                .bold()
+        VStack {
+            Text(temp)
+                .font(.system(size: 100))
+                .fontWeight(.thin)
+            
+            Text(currentWeather.condition.description)
+                .font(.title3)
+            
+            if let highTemperature, let lowTemperature {
+                Text("H: \(highTemperature) | L: \(lowTemperature)")
+                    .bold()
+            }
         }
     }
 }

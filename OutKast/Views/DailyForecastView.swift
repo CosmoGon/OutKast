@@ -16,12 +16,31 @@ struct DailyForecastView: View {
     @State private var barWidth: Double = 0
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             let maxDayTemp = dailyForecast.map{$0.highTemperature.value}.max() ?? 0
             let minDayTemp = dailyForecast.map{$0.lowTemperature.value}.min() ?? 0
             let tempRange = maxDayTemp - minDayTemp
             
-            ForEach(dailyForecast, id: \.date) { day in
+            HStack {
+                Image(systemName: "calendar")
+                    .font(.system(size: 14))
+                    .bold()
+                    .foregroundColor(.white)
+                    .opacity(0.5)
+                
+                Text("10-Day Forecast".uppercased())
+                    .font(.system(size: 14))
+                    .bold()
+                    .foregroundColor(.white)
+                    .opacity(0.7)
+            }
+            
+            Divider()
+                .frame(height: 1)
+                .overlay(Color.white.opacity(0.5))
+                .padding(.horizontal, 2)
+            
+            ForEach(Array(dailyForecast.enumerated()), id: \.element.date) { index, day in
                 LabeledContent {
                     HStack(spacing: 0) {
                         VStack {
@@ -37,10 +56,10 @@ struct DailyForecastView: View {
                                     .bold()
                             }
                         }
-                        .frame(width: 25)
+                        .frame(width: 75)
                         
                         Text(weatherManager.temperatureFormatter.string(from: day.lowTemperature))
-                            .font(.system(size: 14, weight: .bold))
+                            .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(width: 50)
                         
@@ -76,15 +95,24 @@ struct DailyForecastView: View {
                             }
                         
                         Text(weatherManager.temperatureFormatter.string(from: day.highTemperature))
-                            .font(.system(size: 14, weight: .bold))
+                            .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(width: 50)
                     }
                 } label: {
-                    Text(day.date.localWeekDay(for: timezone))
-                        .frame(width: 40, alignment: .leading)
+                    let isToday = Calendar.current.isDateInToday(day.date)
+                    Text(isToday ? "Today" : day.date.localWeekDay(for: timezone))
+                        .bold()
+                        .frame(width: 60, alignment: .leading)
                 }
                 .frame(height: 35)
+                
+                if index < dailyForecast.count - 1 {
+                    Divider()
+                        .frame(height: 1)
+                        .overlay(Color.white.opacity(0.5))
+                        .padding(.horizontal, 2)
+                }
             }
         }
         .padding()
