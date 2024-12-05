@@ -27,7 +27,7 @@ struct PrecipitationView: View {
             .padding(.top, -5)
             .padding(.bottom, 10)
             
-            Text("3 mm")
+            Text("3 mm") // Precipitation ammount
                 .foregroundColor(.white)
                 .font(Font.system(size: 32))
                 .fontWeight(.medium)

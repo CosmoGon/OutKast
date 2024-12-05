@@ -49,7 +49,7 @@ struct SunTrackerView: View {
             
             Spacer()
             
-            Text("Sunrise: 7AM")
+            Text("Sunrise: 7AM") // Time of sunrise
                 .foregroundColor(.white)
                 .font(Font.system(size: 14))
                 .fontWeight(.medium)

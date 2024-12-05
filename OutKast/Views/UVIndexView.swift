@@ -30,14 +30,14 @@ struct UVIndexView: View {
             .padding(.top, -5)
             .padding(.bottom, 10)
             
-            Text("\(currentWeather.uvIndex.value, specifier: "%.0f")") // UV index value
+            Text("\(currentWeather.uvIndex.value)") // UV index value
                 .foregroundColor(.white)
                 .font(Font.system(size: 32))
                 .fontWeight(.medium)
                 .shadow(color: .gray.opacity(0.2), radius: 1.0)
                 .padding(.bottom, -5)
             
-            Text("Moderate") // Index rating
+            Text("Low") // Index rating
                 .foregroundColor(.white)
                 .font(Font.system(size: 22))
                 .fontWeight(.semibold)
