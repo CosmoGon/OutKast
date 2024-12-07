@@ -14,7 +14,14 @@ struct CitiesListView: View {
     let currentLocation: City?
     @Binding var selectedCity: City?
     @State private var isSearching = false
+    @State private var temperatureUnit: TemperatureUnit = .celsius
+    @State private var isUnitsPresented = false
     @FocusState private var isFocused: Bool
+    
+    enum TemperatureUnit: String, CaseIterable {
+        case celsius = "Celsius"
+        case fahrenheit = "Fahrenheit"
+    }
     
     var body: some View {
         NavigationStack {
@@ -62,13 +69,57 @@ struct CitiesListView: View {
                                     }
                             }
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
                         .listRowInsets(.init(top: 0, leading: 20, bottom: 10, trailing: 20))
                     }
                     .listStyle(.plain)
-                    .navigationTitle("My Cities")
-                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("Weather")
                     .preferredColorScheme(.dark)
+                    .navigationBarItems(
+                        leading: Text(""),
+                        
+                        trailing: Menu {
+                            Button(action: {
+                                // Handle action for the menu item
+                            }) {
+                                Label("Edit List", systemImage: "pencil")
+                            }
+                            
+                            Button(action: {
+                                // Handle action for the menu item
+                            }) {
+                                Label("Notifications", systemImage: "bell.badge")
+                            }
+                            
+                            Divider()
+                            
+                            Picker("Temperature unit", selection: $temperatureUnit) {
+                                ForEach(TemperatureUnit.allCases, id: \.self) { unit in
+                                    Label(unit.rawValue, systemImage: unit == .celsius ? "c.circle" : "f.circle")
+                                }
+                            }
+                            
+                            Divider()
+                            
+                            Button(action: {
+                                isUnitsPresented.toggle()
+                            }) {
+                                Label("Units", systemImage: "chart.bar")
+                            }
+                            
+                            Divider()
+                            
+                            Button(action: {
+                                // Handle action for the menu item
+                            }) {
+                                Label("Report an Issue", systemImage: "exclamationmark.bubble")
+                            }
+                        } label: {
+                            Image(systemName: "ellipsis.circle")
+                                .foregroundColor(.white)
+                                .font(.system(size: 20))
+                        }
+                    )
                 }
                 
                 if isSearching {
