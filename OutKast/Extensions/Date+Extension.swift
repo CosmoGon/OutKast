@@ -18,7 +18,7 @@ extension Date {
     
     func localTime(for timeZone: TimeZone) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH"
+        dateFormatter.dateFormat = "HH:mm"
         dateFormatter.timeZone = timeZone
         return dateFormatter.string(from: self)
     }
