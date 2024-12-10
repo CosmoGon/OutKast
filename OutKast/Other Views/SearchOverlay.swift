@@ -24,7 +24,7 @@ struct SearchOverlay: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                     
-                    TextField("Search...", text: $searchText)
+                    TextField("Search for a city or airport", text: $searchText)
                         .textFieldStyle(.roundedBorder)
                         .focused($isFocused)
                     

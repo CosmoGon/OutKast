@@ -6,31 +6,33 @@
 //
 
 import SwiftUI
+import WeatherKit
 
 struct CitiesListView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(DataStore.self) private var store
-    
+
     let currentLocation: City?
     @Binding var selectedCity: City?
     @State private var isSearching = false
     @State private var temperatureUnit: TemperatureUnit = .celsius
     @State private var isUnitsPresented = false
     @FocusState private var isFocused: Bool
-    
+
     enum TemperatureUnit: String, CaseIterable {
         case celsius = "Celsius"
         case fahrenheit = "Fahrenheit"
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
+                    // Search Bar
                     HStack {
                         Image(systemName: "magnifyingglass")
-                        
-                        TextField("Search...", text: .constant(""))
+
+                        TextField("Search for a city or airport", text: .constant(""))
                             .textFieldStyle(.roundedBorder)
                             .focused($isFocused)
                     }
@@ -40,7 +42,8 @@ struct CitiesListView: View {
                             isSearching.toggle()
                         }
                     }
-                    
+
+                    // Cities List
                     List {
                         Group {
                             if let currentLocation {
@@ -50,12 +53,12 @@ struct CitiesListView: View {
                                         dismiss()
                                     }
                             }
-                            
+
                             ForEach(store.cities) { city in
                                 CityRowView(city: city)
                                     .swipeActions {
                                         Button(role: .destructive) {
-                                            if let index = store.cities.firstIndex(where: {$0.id == city.id}) {
+                                            if let index = store.cities.firstIndex(where: { $0.id == city.id }) {
                                                 store.cities.remove(at: index)
                                                 store.saveCities()
                                             }
@@ -71,44 +74,28 @@ struct CitiesListView: View {
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .listRowInsets(.init(top: 0, leading: 20, bottom: 10, trailing: 20))
+                        .padding(.vertical, 3)
+                        .listRowSeparator(.hidden)
                     }
                     .listStyle(.plain)
                     .navigationTitle("Weather")
                     .preferredColorScheme(.dark)
                     .navigationBarItems(
-                        leading: Text(""),
-                        
                         trailing: Menu {
-                            Button(action: {
-                                // Handle action for the menu item
-                            }) {
-                                Label("Edit List", systemImage: "pencil")
-                            }
-                            
-                            Button(action: {
-                                // Handle action for the menu item
-                            }) {
-                                Label("Notifications", systemImage: "bell.badge")
-                            }
-                            
-                            Divider()
-                            
                             Picker("Temperature unit", selection: $temperatureUnit) {
                                 ForEach(TemperatureUnit.allCases, id: \.self) { unit in
                                     Label(unit.rawValue, systemImage: unit == .celsius ? "c.circle" : "f.circle")
                                 }
                             }
-                            
-                            Divider()
-                            
+
                             Button(action: {
                                 isUnitsPresented.toggle()
                             }) {
                                 Label("Units", systemImage: "chart.bar")
                             }
-                            
+
                             Divider()
-                            
+
                             Button(action: {
                                 // Handle action for the menu item
                             }) {
@@ -121,7 +108,8 @@ struct CitiesListView: View {
                         }
                     )
                 }
-                
+
+                // Search Overlay
                 if isSearching {
                     SearchOverlay(isSearching: $isSearching)
                         .zIndex(1)

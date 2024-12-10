@@ -28,7 +28,7 @@ struct CurrentWeatherView: View {
                 .font(.title3)
             
             if let highTemperature, let lowTemperature {
-                Text("H: \(highTemperature) | L: \(lowTemperature)")
+                Text("H: \(highTemperature)  L: \(lowTemperature)")
                     .bold()
             }
         }
