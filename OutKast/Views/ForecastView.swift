@@ -1,8 +1,8 @@
 //
-//  ContentView.swift
+//  ForecastView.swift
 //  OutKast
 //
-//  Created by Cosmin Ghinea on 27.11.2024.
+//  Created by Cosmin Ghinea on 10.12.2024.
 //
 
 import SwiftUI
@@ -13,16 +13,14 @@ struct ForecastView: View {
     @Environment(LocationManager.self) var locationManager
     @Environment(\.scenePhase) private var scenePhase
     
-    @State private var selectedCity: City?
-    
     let weatherManager = WeatherManager.shared
     
-    @State private var currentWeather: CurrentWeather?
-    @State private var hourlyForecast: Forecast<HourWeather>?
-    @State private var dailyForecast: Forecast<DayWeather>?
-    @State private var isLoading = false
-    @State private var showCityList = false
-    @State private var timezone: TimeZone = .current
+    @Binding var selectedCity: City?
+    @Binding var currentWeather: CurrentWeather?
+    @Binding var hourlyForecast: Forecast<HourWeather>?
+    @Binding var dailyForecast: Forecast<DayWeather>?
+    @Binding var isLoading: Bool
+    @Binding var timezone: TimeZone
     
     var highTemperature: String? {
         if let high = hourlyForecast?.map({$0.temperature}).max() {
@@ -41,7 +39,7 @@ struct ForecastView: View {
     }
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack {
                 if let selectedCity {
                     if isLoading {
@@ -120,9 +118,6 @@ struct ForecastView: View {
                                     .aspectRatio(1.0, contentMode: .fill)
                             }
                         }
-                        
-                        AttributionView()
-                            .tint(.white)
                     }
                 }
             }
@@ -135,22 +130,6 @@ struct ForecastView: View {
             }
         }
         .preferredColorScheme(.dark)
-        .safeAreaInset(edge: .bottom) {
-            Button {
-                showCityList.toggle()
-            } label: {
-                Image(systemName: "list.star")
-            }
-            .padding()
-            .background(Color(.darkGray))
-            .clipShape(.circle)
-            .foregroundStyle(.white)
-            .padding(.horizontal)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-        }
-        .fullScreenCover(isPresented: $showCityList) {
-            CitiesListView(currentLocation: locationManager.currentLocation, selectedCity: $selectedCity)
-        }
         .onChange(of: scenePhase) {
             if scenePhase == .active {
                 selectedCity = locationManager.currentLocation
@@ -166,7 +145,6 @@ struct ForecastView: View {
                 selectedCity = currentLocation
             }
         }
-        
         .task(id: selectedCity) {
             if let selectedCity {
                 await fetchWeather(for: selectedCity)
@@ -186,8 +164,8 @@ struct ForecastView: View {
     }
 }
 
-#Preview {
-    ForecastView()
-        .environment(LocationManager())
-        .environment(DataStore(forPreviews: true))
-}
+//#Preview {
+//    ForecastView()
+//        .environment(LocationManager())
+//        .environment(DataStore(forPreviews: true))
+//}

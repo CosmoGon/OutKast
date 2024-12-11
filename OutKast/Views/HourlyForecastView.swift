@@ -30,7 +30,7 @@ struct HourlyForecastView: View {
                 .padding(.top, 5)
                 .padding(.bottom, -10)
             
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(Array(hourlyForecast.enumerated()), id: \.element.date) { index, hour in
                         VStack(spacing: 0) {

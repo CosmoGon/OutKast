@@ -116,6 +116,7 @@ struct CitiesListView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

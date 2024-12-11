@@ -15,7 +15,7 @@ struct OutKastApp: App {
     var body: some Scene {
         WindowGroup {
             if locationManager.isAuthorized {
-                ForecastView()
+                MainScreenView()
                     .onAppear {
                         print(URL.documentsDirectory.path())
                     }
