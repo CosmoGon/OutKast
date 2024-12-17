@@ -23,16 +23,16 @@ struct ForecastView: View {
     @Binding var timezone: TimeZone
     
     var highTemperature: String? {
-        if let high = hourlyForecast?.map({$0.temperature}).max() {
-            return weatherManager.temperatureFormatter.string(from: high)
+        if let high = hourlyForecast?.map({ $0.temperature }).max() {
+            return "\(Int(high.value))°"
         } else {
             return nil
         }
     }
     
     var lowTemperature: String? {
-        if let low = hourlyForecast?.map({$0.temperature}).min() {
-            return weatherManager.temperatureFormatter.string(from: low)
+        if let low = hourlyForecast?.map({ $0.temperature }).min() {
+            return "\(Int(low.value))°"
         } else {
             return nil
         }
@@ -47,8 +47,9 @@ struct ForecastView: View {
                         Text("Fetching Weather...")
                     } else {
                         Text(selectedCity.name)
-                            .font(.title)
+                            .font(.system(size: 35))
                             .padding(.top, 30)
+                            .padding(.bottom, -5)
                         
                         if let currentWeather {
                             CurrentWeatherView(

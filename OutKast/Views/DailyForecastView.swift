@@ -9,7 +9,6 @@ import SwiftUI
 import WeatherKit
 
 struct DailyForecastView: View {
-    let weatherManager = WeatherManager.shared
     let dailyForecast: Forecast<DayWeather>
     let timezone: TimeZone
     
@@ -58,8 +57,9 @@ struct DailyForecastView: View {
                         }
                         .frame(width: 75)
                         
-                        Text(weatherManager.temperatureFormatter.string(from: day.lowTemperature))
-                            .font(.system(size: 15, weight: .semibold))
+                        Text("\(Int(day.lowTemperature.value))°")
+                            .font(.system(size: 20, weight: .medium))
+                            .opacity(0.6)
                             .foregroundStyle(.white)
                             .frame(width: 50)
                         
@@ -94,15 +94,15 @@ struct DailyForecastView: View {
                                 .offset(x: xOffset)
                             }
                         
-                        Text(weatherManager.temperatureFormatter.string(from: day.highTemperature))
-                            .font(.system(size: 15, weight: .semibold))
+                        Text("\(Int(day.highTemperature.value))°")
+                            .font(.system(size: 20, weight: .medium))
                             .foregroundStyle(.white)
                             .frame(width: 50)
                     }
                 } label: {
                     let isToday = Calendar.current.isDateInToday(day.date)
                     Text(isToday ? "Today" : day.date.localWeekDay(for: timezone))
-                        .bold()
+                        .font(.system(size: 20, weight: .medium))
                         .frame(width: 60, alignment: .leading)
                 }
                 .frame(height: 35)

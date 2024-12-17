@@ -9,7 +9,6 @@ import SwiftUI
 import WeatherKit
 
 struct HourlyForecastView: View {
-    let weatherManager = WeatherManager.shared
     let hourlyForecast: Forecast<HourWeather>
     let timezone: TimeZone
     
@@ -35,7 +34,8 @@ struct HourlyForecastView: View {
                     ForEach(Array(hourlyForecast.enumerated()), id: \.element.date) { index, hour in
                         VStack(spacing: 0) {
                             Text(index == 0 ? "Now" : hour.date.localTime(for: timezone))
-                                .fontWeight(.semibold)
+                                .font(.system(size: 15))
+                                .fontWeight(.medium)
                             
                             Spacer()
                             Image(systemName: hour.symbolName)
@@ -51,9 +51,9 @@ struct HourlyForecastView: View {
                             }
                             Spacer()
                             
-                            Text(weatherManager.temperatureFormatter.string(from: hour.temperature))
-                                .font(.system(size: 15))
-                                .fontWeight(.semibold)
+                            Text("\(Int(hour.temperature.value))°")
+                                .font(.system(size: 20))
+                                .fontWeight(.medium)
                         }
                     }
                 }

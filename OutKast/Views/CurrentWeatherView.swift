@@ -9,27 +9,27 @@ import SwiftUI
 import WeatherKit
 
 struct CurrentWeatherView: View {
-    let weatherManager = WeatherManager.shared
     let currentWeather: CurrentWeather
     let highTemperature: String?
     let lowTemperature: String?
     let timezone: TimeZone
     
-    
     var body: some View {
-        let temp = weatherManager.temperatureFormatter.string(from: currentWeather.temperature)
+        let temp = "\(Int(currentWeather.temperature.value))°"
         
         VStack {
             Text(temp)
                 .font(.system(size: 100))
                 .fontWeight(.thin)
+                .padding(.vertical, -15)
             
             Text(currentWeather.condition.description)
                 .font(.title3)
             
             if let highTemperature, let lowTemperature {
                 Text("H: \(highTemperature)  L: \(lowTemperature)")
-                    .bold()
+                    .font(.system(size: 20))
+                    .fontWeight(.medium)
             }
         }
     }

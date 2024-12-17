@@ -13,11 +13,7 @@ struct MainScreenView: View {
     @Environment(LocationManager.self) var locationManager
     
     @State private var selectedCity: City?
-    
     @State private var isMapViewPresented = false
-    
-    let weatherManager = WeatherManager.shared
-    
     @State private var currentWeather: CurrentWeather?
     @State private var hourlyForecast: Forecast<HourWeather>?
     @State private var dailyForecast: Forecast<DayWeather>?
@@ -26,16 +22,16 @@ struct MainScreenView: View {
     @State private var timezone: TimeZone = .current
     
     var highTemperature: String? {
-        if let high = hourlyForecast?.map({$0.temperature}).max() {
-            return weatherManager.temperatureFormatter.string(from: high)
+        if let high = hourlyForecast?.map({ $0.temperature }).max() {
+            return "\(Int(high.value))°"
         } else {
             return nil
         }
     }
     
     var lowTemperature: String? {
-        if let low = hourlyForecast?.map({$0.temperature}).min() {
-            return weatherManager.temperatureFormatter.string(from: low)
+        if let low = hourlyForecast?.map({ $0.temperature }).min() {
+            return "\(Int(low.value))°"
         } else {
             return nil
         }
