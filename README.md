@@ -11,6 +11,13 @@ This repository contains a feature-rich clone of the official iOS Weather app. T
 - Search Functionality: Search for weather data in different cities worldwide.
 - Multiple Units: Support for Celsius and Fahrenheit.
 
+## Technologies Used
+
+- Swift: Programming language used for iOS development.
+- SwiftUI: Framework for building the user interface.
+- CoreLocation: For fetching user’s location.
+- WeatherKit: For fetching weather data
+
 ## Screenshots
 
 ![Simulator Screenshot - iPhone 16 Pro - 2024-12-18 at 12 24 34](https://github.com/user-attachments/assets/0d9088f0-5f98-40c2-b542-31ccbab95789)
@@ -19,9 +26,3 @@ This repository contains a feature-rich clone of the official iOS Weather app. T
 ![Simulator Screenshot - iPhone 16 Pro - 2024-12-18 at 12 23 40](https://github.com/user-attachments/assets/6d597086-f691-4002-971e-c056b3007f17)
 ![Simulator Screenshot - iPhone 16 Pro - 2024-12-18 at 12 23 09](https://github.com/user-attachments/assets/a20e4b97-f418-499b-b2e1-4f48dda03d09)
 
-## Technologies Used
-
-- Swift: Programming language used for iOS development.
-- SwiftUI: Framework for building the user interface.
-- CoreLocation: For fetching user’s location.
-- WeatherKit: For fetching weather data
